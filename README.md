@@ -62,7 +62,40 @@ instance.DisplayQueue()
 
 运行`go run main.go`即可获得benchmark结果
 
-| 操作/数量 | 10000      | 100000      | 1000000      |
+* 环境：
+
+```
+OS
+-------------------------------------------------------------------------------------
+             ............                keepchen@keepchen-PC 
+         .';;;;;.       .,;,.            -------------------------- 
+      .,;;;;;;;.       ';;;;;;;.         OS: Deepin 15.11 x86_64 
+    .;::::::::'     .,::;;,''''',.       Model: ESC300 G4 
+   ,'.::::::::    .;;'.          ';      Kernel: 4.15.0-30deepin-generic 
+  ;'  'cccccc,   ,' :: '..        .:     Uptime: 29 minutes 
+ ,,    :ccccc.  ;: .c, '' :.       ,;    Packages: 1831 
+.l.     cllll' ., .lc  :; .l'       l.   Shell: zsh 5.3.1 
+.c       :lllc  ;cl:  .l' .ll.      :'   Resolution: 1920x1080, 1600x900 
+.l        'looc. .   ,o:  'oo'      c,   DE: Deepin 
+.o.         .:ool::coc'  .ooo'      o.   WM: KWin 
+ ::            .....   .;dddo      ;c    Theme: Deepin [GTK2/3] 
+  l:...            .';lddddo.     ,o     Icons: Deepin [GTK2/3] 
+   lxxxxxdoolllodxxxxxxxxxc      :l      Terminal: deepin-terminal 
+    ,dxxxxxxxxxxxxxxxxxxl.     'o,       CPU: Intel i3-7100 (4) @ 3.9GHz 
+      ,dkkkkkkkkkkkkko;.    .;o;         GPU: NVIDIA GeForce GT 710B 
+        .;okkkkkdl;.    .,cl:.           Memory: 2772MB / 15990MB 
+            .,:cccccccc:,.                
+                                         ████████████████████████
+
+Golang
+-------------------------------------------------------------------------------------
+go version go1.15 linux/amd64
+
+```
+
+* 测试结果：
+
+| 操作/数量 | 10000次    | 100000次    | 1000000次    |
 | --------- | ---------- | ----------- | ------------ |
 | LPush     | 0.827006ms | 12.559893ms | 140.601657ms |
 | RPush     | 1.080579ms | 13.262032ms | 130.045112ms |

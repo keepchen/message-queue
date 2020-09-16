@@ -4,11 +4,19 @@
 
 使用双向链表实现类似redis的list功能，编程语言用golang实现。
 
+#### 安装
+
+```shell
+go get github.com/keepchen/message-queue/queue
+```
+
 #### 调用示例
 
 * 获取实例
 
 ```golang
+import "github.com/keepchen/message-queue/queue"
+
 instance := queue.GetDBInstance("db1")
 ```
 

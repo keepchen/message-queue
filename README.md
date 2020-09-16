@@ -1,5 +1,7 @@
 # message queue
 
+[![go.dev reference](https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white&style=flat-square)](https://pkg.go.dev/github.com/keepchen/message-queue?tab=overview)
+
 #### 简介
 
 使用双向链表实现类似redis的list功能，编程语言用golang实现。

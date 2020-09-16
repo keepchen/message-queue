@@ -20,6 +20,7 @@ type DBSet struct {
 //Instance 实例
 type Instance struct {
 	dbName string
+	debug  bool
 }
 
 var pool *DBSet
@@ -37,7 +38,13 @@ func GetDBInstance(dbName string) *Instance {
 		//当前库不存在，先创建
 		(*pool.db)[dbName] = &queue{}
 	}
-	return &Instance{dbName: dbName}
+	return &Instance{dbName: dbName, debug: true}
+}
+
+//SetDebugMode 设置调试模式
+func (instance *Instance) SetDebugMode(isDebug bool) *Instance {
+	instance.debug = isDebug
+	return instance
 }
 
 //LPush 向队列头部添加节点
@@ -47,7 +54,9 @@ func (instance *Instance) LPush(val interface{}) error {
 
 	list, err := (*pool.db)[instance.dbName].list.lPush(val)
 	if err != nil {
-		log.Printf("db {%s} [LPush] error: %#v\n", instance.dbName, err)
+		if instance.debug {
+			log.Printf("db {%s} [LPush] error: %#v\n", instance.dbName, err)
+		}
 		return err
 	}
 
@@ -64,7 +73,9 @@ func (instance *Instance) LPop() (interface{}, error) {
 
 	list, val, err := (*pool.db)[instance.dbName].list.lPop()
 	if err != nil {
-		log.Printf("db {%s} [LPop] error: %#v\n", instance.dbName, err)
+		if instance.debug {
+			log.Printf("db {%s} [LPop] error: %#v\n", instance.dbName, err)
+		}
 		return nil, err
 	}
 
@@ -81,7 +92,9 @@ func (instance *Instance) RPush(val interface{}) error {
 
 	list, err := (*pool.db)[instance.dbName].list.rPush(val)
 	if err != nil {
-		log.Printf("db {%s} [RPush] error: %#v\n", instance.dbName, err)
+		if instance.debug {
+			log.Printf("db {%s} [RPush] error: %#v\n", instance.dbName, err)
+		}
 		return err
 	}
 
@@ -98,7 +111,9 @@ func (instance *Instance) RPop() (interface{}, error) {
 
 	list, val, err := (*pool.db)[instance.dbName].list.rPop()
 	if err != nil {
-		log.Printf("db {%s} [RPop] error: %#v\n", instance.dbName, err)
+		if instance.debug {
+			log.Printf("db {%s} [RPop] error: %#v\n", instance.dbName, err)
+		}
 		return nil, err
 	}
 
@@ -158,14 +173,18 @@ func (instance *Instance) DisplayQueue() {
 //instance.LPush(1)  # <- 此处将会panic
 func (instance *Instance) FlushDB() error {
 	pool.mu.Lock()
-	defer pool.mu.Unlock()
+	defer func() {
+		pool.mu.Unlock()
+		//销毁实例
+		instance = (*Instance)(nil)
+	}()
 
 	if _, ok := (*pool.db)[instance.dbName]; ok {
-		log.Printf("db {%s} will be delete\n", instance.dbName)
+		if instance.debug {
+			log.Printf("db {%s} will be delete\n", instance.dbName)
+		}
 		delete(*pool.db, instance.dbName)
 		return nil
 	}
-	//销毁实例
-	instance = nil
 	return fmt.Errorf("db {%s} not exist", instance.dbName)
 }

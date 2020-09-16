@@ -30,7 +30,7 @@ func benchmark(ops int) {
 	benchmarkLPop(ops)
 	benchmarkRPop(ops)
 
-	// benchmarkPushAndPop(ops)
+	benchmarkPushAndPop(ops)
 }
 
 func benchmarkLPush(ops int) {

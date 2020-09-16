@@ -20,6 +20,9 @@ go get github.com/keepchen/message-queue/queue
 import "github.com/keepchen/message-queue/queue"
 
 instance := queue.GetDBInstance("db1")
+
+# 关闭打印信息
+instance = instance.SetDebugMode(false)
 ```
 
 * 向左侧追加

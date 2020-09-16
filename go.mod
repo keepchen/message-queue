@@ -1,3 +1,3 @@
-module message-queue
+module github.com/keepchen/message-queue
 
 go 1.15
